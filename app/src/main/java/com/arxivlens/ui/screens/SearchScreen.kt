@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.text.KeyboardActions
@@ -100,14 +101,15 @@ fun SearchScreen(
             }
         }
     ) { scaffoldPadding ->
-    Column(modifier = Modifier.fillMaxSize().padding(scaffoldPadding)) {
+    Column(modifier = Modifier.fillMaxSize().padding(bottom = scaffoldPadding.calculateBottomPadding())) {
 
         // ── Branded header + search bar ───────────────────────────────────
         Column(
             modifier = Modifier
                 .fillMaxWidth()
                 .background(MaterialTheme.colorScheme.primary)
-                .padding(start = 16.dp, end = 16.dp, top = 16.dp, bottom = 12.dp)
+                .statusBarsPadding()
+                .padding(start = 16.dp, end = 16.dp, top = 8.dp, bottom = 12.dp)
         ) {
             // Title row with sort button
             Row(
