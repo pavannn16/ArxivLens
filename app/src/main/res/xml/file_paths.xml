@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Declares which directories FileProvider is allowed to share.
+    "cache-path" maps to getCacheDir() — safe for temporary export files.
+    The "exports/" sub-folder is where .bib files are written before sharing.
+-->
+<paths>
+    <cache-path name="bibtex_exports" path="exports/" />
+</paths>
