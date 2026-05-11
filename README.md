@@ -1,4 +1,8 @@
-# ArxivLens
+<div align="center">
+  <img src="docs/logo.png" width="110" alt="ArxivLens Logo" />
+
+  # ArxivLens
+</div>
 
 ArxivLens is an Android app for discovering, saving, and exporting academic papers from arXiv. It is designed for students and researchers who want a lightweight mobile workflow for finding papers, organizing them into collections, and generating BibTeX citations for reports, papers, and LaTeX projects.
 
