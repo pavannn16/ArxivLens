@@ -23,17 +23,23 @@ object BibTexExporter {
      *
      * Pipeline steps:
      *  1. splitBy { doi.isNotBlank() } — peer-reviewed entries (with DOI) go first.
-     *  2. map { buildCiteKey }         — derive base cite keys.
-     *  3. frequencyMap()               — count duplicates (generic function with for-loop).
-     *  4. zip + map                    — pair each paper with its deduplicated key.
-     *  5. joinToString("\n\n")         — fold into a single .bib string.
+     *  2. topNBy(size) { publishedDate } — within each group, sort newest-first.
+     *  3. map { buildCiteKey }         — derive base cite keys.
+     *  4. frequencyMap()               — count duplicates (generic function with for-loop).
+     *  5. zip + map                    — pair each paper with its deduplicated key.
+     *  6. joinToString("\n\n")         — fold into a single .bib string.
      */
     fun collectionToBibTex(papers: List<SavedPaper>): String {
         if (papers.isEmpty()) return ""
 
         // splitBy: generic FP utility — peer-reviewed (DOI present) entries first in the .bib
         val (peerReviewed, preprints) = papers.splitBy { it.doi.isNotBlank() }
-        val orderedPapers = peerReviewed + preprints
+
+        // topNBy: generic constrained FP utility — within each group, newest papers appear first.
+        // topNBy(size) is equivalent to sortedByDescending but uses the constrained generic
+        // to guarantee the key type (String, ISO-8601 dates) supports natural ordering.
+        val orderedPapers = peerReviewed.topNBy(peerReviewed.size) { it.publishedDate } +
+                            preprints.topNBy(preprints.size)    { it.publishedDate }
 
         val baseKeys = orderedPapers.map { buildCiteKey(it) }
         // frequencyMap: generic FP utility using a for-loop — detects duplicate base keys
